@@ -4,6 +4,8 @@
 [![npm downloads](https://img.shields.io/npm/dm/google-robotstxt-parser)](https://www.npmjs.com/package/google-robotstxt-parser)
 [![license](https://img.shields.io/npm/l/google-robotstxt-parser)](./LICENSE)
 
+**[Live Demo](https://vorticoncmdr.github.io/google-robotstxt-parser/)**
+
 A pure JavaScript port of Google's official [robotstxt](https://github.com/google/robotstxt) C++ library. Runs in both **Node.js** and the **browser** with no dependencies.
 
 Implements the same parsing rules, typo tolerance, and URL-matching logic that Google's own crawler uses to evaluate `robots.txt` files.
