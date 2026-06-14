@@ -32,6 +32,7 @@ jobs:
         mkdir -p _site
         cp docs/index.html _site/index.html
         cp robots.js _site/robots.js
+        cp docs/vorticoncmdr.github.io_google-robotstxt-parser_.png _site/preview.png
 
     - uses: actions/configure-pages@v4
 
