@@ -1,0 +1,16 @@
+{
+  "name": "google-robotstxt-js",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": "./robots.js",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/.bin/jest"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
