@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/VorticonCmdr/google-robotstxt-parser/compare/v1.0.1...v1.1.0) (2026-06-15)
+
+
+### Features
+
+* deploy tester.html to GitHub Pages ([09b6245](https://github.com/VorticonCmdr/google-robotstxt-parser/commit/09b624506d61eb56029be5c5f9e845c3df6d5412))
+
 ## [1.0.1](https://github.com/VorticonCmdr/google-robotstxt-parser/compare/v1.0.0...v1.0.1) (2026-06-15)
 
 
