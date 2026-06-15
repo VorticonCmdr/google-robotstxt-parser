@@ -1,6 +1,6 @@
 {
   "name": "google-robotstxt-parser",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pure JavaScript port of Google's robots.txt parser (google/robotstxt). Works in Node.js and the browser.",
   "type": "module",
   "exports": "./robots.js",

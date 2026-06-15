@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/VorticonCmdr/google-robotstxt-parser/compare/v1.0.0...v1.0.1) (2026-06-15)
+
+
+### Bug Fixes
+
+* getKeyType returns {type, isTypo} matching C++ GetKeyType signature ([4b251a2](https://github.com/VorticonCmdr/google-robotstxt-parser/commit/4b251a2fdcf18215754e92fe2f0da67f2f4342b4))
+
 # 1.0.0 (2026-06-15)
 
 
