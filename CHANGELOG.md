@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/VorticonCmdr/google-robotstxt-parser/compare/v1.1.0...v1.2.0) (2026-06-15)
+
+
+### Features
+
+* add nav links (Checker / Annotated Tester / GitHub) to index.html ([2822897](https://github.com/VorticonCmdr/google-robotstxt-parser/commit/2822897fdbf1156cd50f6609ee75827fdcff5835))
+
 # [1.1.0](https://github.com/VorticonCmdr/google-robotstxt-parser/compare/v1.0.1...v1.1.0) (2026-06-15)
 
 
