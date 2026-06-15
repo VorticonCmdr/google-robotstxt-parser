@@ -81,10 +81,13 @@ This library matches Google's behaviour in several ways that differ from a naive
 - **Typo tolerance** — common misspellings like `Dissallow`, `Disalow`, `User agent` are accepted.
 - **Pattern priority** — longer patterns win over shorter ones, regardless of order.
 - **Specific agent beats wildcard** — if the robots.txt contains a group for the queried agent, the `User-agent: *` group is ignored entirely for that agent.
-- **`/index.html` equivalence** — `Allow: /dir/index.html` is treated as `Allow: /dir/`.
 - **URL normalisation** — non-ASCII characters in allow/disallow patterns are percent-encoded to match Google's canonicalisation.
 - **UTF-8 BOM** — silently stripped at the start of the file.
 - **Line length cap** — lines longer than ~16 KB are truncated, matching the C++ implementation.
+
+### `/index.html` and `/index.htm` normalisation
+
+When an `Allow` pattern ends in `/index.html` or `/index.htm` but does **not** match the requested URL, Google's parser applies a Google-specific fallback: the pattern is re-evaluated as the parent directory path anchored with `$` — i.e. `/dir/index.html` is re-tried as `/dir/$`. This means the rule grants access to the exact directory URL (`/dir/`) but **not** to arbitrary paths beneath it or to `/dir/index.htm` (without the trailing `l`). It is therefore more precise than a plain `Allow: /dir/` prefix match. This behaviour is inherited directly from the upstream C++ implementation (`robots.cc`) and is verified by the `GoogleOnly_IndexHTMLisDirectory` test.
 
 ## Browser usage
 
