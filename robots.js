@@ -155,22 +155,24 @@ const KeyType = Object.freeze({
 
 function getKeyType(key) {
   const lk = key.toLowerCase();
-  if (lk.startsWith('user-agent') ||
-      (ALLOW_FREQUENT_TYPOS && (lk.startsWith('useragent') || lk.startsWith('user agent')))) {
-    return KeyType.USER_AGENT;
-  }
-  if (lk.startsWith('allow')) return KeyType.ALLOW;
-  if (lk.startsWith('disallow') ||
-      (ALLOW_FREQUENT_TYPOS && (
-        lk.startsWith('dissallow') || lk.startsWith('dissalow') ||
-        lk.startsWith('disalow')   || lk.startsWith('diasllow') ||
-        lk.startsWith('disallaw')))) {
-    return KeyType.DISALLOW;
-  }
-  if (lk.startsWith('sitemap') || (ALLOW_FREQUENT_TYPOS && lk.startsWith('site-map'))) {
-    return KeyType.SITEMAP;
-  }
-  return KeyType.UNKNOWN;
+  if (lk.startsWith('user-agent'))
+    return { type: KeyType.USER_AGENT, isTypo: false };
+  if (ALLOW_FREQUENT_TYPOS && (lk.startsWith('useragent') || lk.startsWith('user agent')))
+    return { type: KeyType.USER_AGENT, isTypo: true };
+  if (lk.startsWith('allow'))
+    return { type: KeyType.ALLOW, isTypo: false };
+  if (lk.startsWith('disallow'))
+    return { type: KeyType.DISALLOW, isTypo: false };
+  if (ALLOW_FREQUENT_TYPOS && (
+      lk.startsWith('dissallow') || lk.startsWith('dissalow') ||
+      lk.startsWith('disalow')   || lk.startsWith('diasllow') ||
+      lk.startsWith('disallaw')))
+    return { type: KeyType.DISALLOW, isTypo: true };
+  if (lk.startsWith('sitemap'))
+    return { type: KeyType.SITEMAP, isTypo: false };
+  if (ALLOW_FREQUENT_TYPOS && lk.startsWith('site-map'))
+    return { type: KeyType.SITEMAP, isTypo: true };
+  return { type: KeyType.UNKNOWN, isTypo: false };
 }
 
 function needEscapeValueForKey(keyType) {
@@ -250,7 +252,8 @@ function parseAndEmitLine(lineNum, line, lineTooLong, handler) {
     handler.reportLineMetadata(lineNum, meta);
     return;
   }
-  const keyType = getKeyType(key);
+  const { type: keyType, isTypo } = getKeyType(key);
+  meta.is_acceptable_typo = isTypo;
   const emitValue = needEscapeValueForKey(keyType) ? maybeEscapePattern(value) : value;
   emitKeyValue(lineNum, keyType, key, emitValue, handler);
   handler.reportLineMetadata(lineNum, meta);
