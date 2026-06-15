@@ -1,301 +1,431 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>google-robotstxt-parser — Live Demo</title>
-  <meta name="description" content="Test robots.txt files live in your browser. A JavaScript port of Google's official robots.txt parser — no server, no dependencies.">
+    <head>
+        <meta charset="UTF-8" />
+        <link
+            rel="icon"
+            href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>google-robotstxt-parser — Live Demo</title>
+        <meta
+            name="description"
+            content="Test robots.txt files live in your browser. A JavaScript port of Google's official robots.txt parser — no server, no dependencies."
+        />
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://vorticoncmdr.github.io/google-robotstxt-parser/">
-  <meta property="og:title" content="google-robotstxt-parser — robots.txt Checker">
-  <meta property="og:description" content="Test robots.txt files live in your browser. A JavaScript port of Google's official robots.txt parser — no server, no dependencies.">
-  <meta property="og:image" content="https://vorticoncmdr.github.io/google-robotstxt-parser/preview.png">
+        <!-- Open Graph -->
+        <meta property="og:type" content="website" />
+        <meta
+            property="og:url"
+            content="https://vorticoncmdr.github.io/google-robotstxt-parser/"
+        />
+        <meta
+            property="og:title"
+            content="google-robotstxt-parser — robots.txt Checker"
+        />
+        <meta
+            property="og:description"
+            content="Test robots.txt files live in your browser. A JavaScript port of Google's official robots.txt parser — no server, no dependencies."
+        />
+        <meta
+            property="og:image"
+            content="https://vorticoncmdr.github.io/google-robotstxt-parser/preview.png"
+        />
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="google-robotstxt-parser — robots.txt Checker">
-  <meta name="twitter:description" content="Test robots.txt files live in your browser. A JavaScript port of Google's official robots.txt parser — no server, no dependencies.">
-  <meta name="twitter:image" content="https://vorticoncmdr.github.io/google-robotstxt-parser/preview.png">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+            name="twitter:title"
+            content="google-robotstxt-parser — robots.txt Checker"
+        />
+        <meta
+            name="twitter:description"
+            content="Test robots.txt files live in your browser. A JavaScript port of Google's official robots.txt parser — no server, no dependencies."
+        />
+        <meta
+            name="twitter:image"
+            content="https://vorticoncmdr.github.io/google-robotstxt-parser/preview.png"
+        />
+        <style>
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
 
-    :root {
-      --bg: #0d1117;
-      --surface: #161b22;
-      --border: #30363d;
-      --text: #e6edf3;
-      --muted: #8b949e;
-      --accent: #58a6ff;
-      --green: #3fb950;
-      --red: #f85149;
-      --radius: 8px;
-      --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
-    }
+            :root {
+                --bg: #0d1117;
+                --surface: #161b22;
+                --border: #30363d;
+                --text: #e6edf3;
+                --muted: #8b949e;
+                --accent: #58a6ff;
+                --green: #3fb950;
+                --red: #f85149;
+                --radius: 8px;
+                --font-mono: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+            }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      line-height: 1.6;
-      min-height: 100vh;
-    }
+            body {
+                background: var(--bg);
+                color: var(--text);
+                font-family:
+                    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                line-height: 1.6;
+                min-height: 100vh;
+            }
 
-    header {
-      border-bottom: 1px solid var(--border);
-      padding: 20px 32px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
+            header {
+                border-bottom: 1px solid var(--border);
+                padding: 20px 32px;
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
 
-    header h1 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      font-family: var(--font-mono);
-    }
+            header h1 {
+                font-size: 1.1rem;
+                font-weight: 600;
+                font-family: var(--font-mono);
+            }
 
-    header h1 span { color: var(--muted); font-weight: 400; }
+            header h1 span {
+                color: var(--muted);
+                font-weight: 400;
+            }
 
-    header a {
-      margin-left: auto;
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 0.875rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+            header a {
+                margin-left: auto;
+                color: var(--accent);
+                text-decoration: none;
+                font-size: 0.875rem;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
 
-    header a:hover { text-decoration: underline; }
+            header a:hover {
+                text-decoration: underline;
+            }
 
-    main {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 40px 32px;
-    }
+            main {
+                max-width: 960px;
+                margin: 0 auto;
+                padding: 40px 32px;
+            }
 
-    .hero {
-      text-align: center;
-      margin-bottom: 48px;
-    }
+            .hero {
+                text-align: center;
+                margin-bottom: 48px;
+            }
 
-    .hero h2 { font-size: 1.75rem; font-weight: 700; margin-bottom: 8px; }
-    .hero p { color: var(--muted); font-size: 1rem; }
+            .hero h2 {
+                font-size: 1.75rem;
+                font-weight: 700;
+                margin-bottom: 8px;
+            }
+            .hero p {
+                color: var(--muted);
+                font-size: 1rem;
+            }
 
-    .badge {
-      display: inline-block;
-      background: #1f2937;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 2px 10px;
-      font-size: 0.75rem;
-      font-family: var(--font-mono);
-      margin-bottom: 16px;
-      color: var(--accent);
-    }
+            .badge {
+                display: inline-block;
+                background: #1f2937;
+                border: 1px solid var(--border);
+                border-radius: 20px;
+                padding: 2px 10px;
+                font-size: 0.75rem;
+                font-family: var(--font-mono);
+                margin-bottom: 16px;
+                color: var(--accent);
+            }
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
+            .grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 24px;
+            }
 
-    @media (max-width: 680px) { .grid { grid-template-columns: 1fr; } }
+            @media (max-width: 680px) {
+                .grid {
+                    grid-template-columns: 1fr;
+                }
+            }
 
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-    }
+            .card {
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: var(--radius);
+                padding: 20px;
+            }
 
-    .card label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
+            .card label {
+                display: block;
+                font-size: 0.8rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                color: var(--muted);
+                margin-bottom: 10px;
+            }
 
-    textarea, input[type="text"] {
-      width: 100%;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text);
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      padding: 12px;
-      resize: vertical;
-      outline: none;
-      transition: border-color 0.15s;
-    }
+            textarea,
+            input[type="text"] {
+                width: 100%;
+                background: var(--bg);
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                color: var(--text);
+                font-family: var(--font-mono);
+                font-size: 0.85rem;
+                padding: 12px;
+                resize: vertical;
+                outline: none;
+                transition: border-color 0.15s;
+            }
 
-    textarea:focus, input[type="text"]:focus {
-      border-color: var(--accent);
-    }
+            textarea:focus,
+            input[type="text"]:focus {
+                border-color: var(--accent);
+            }
 
-    textarea { min-height: 260px; }
+            textarea {
+                min-height: 260px;
+            }
 
-    .inputs { display: flex; flex-direction: column; gap: 16px; }
+            .inputs {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
 
-    .result {
-      margin-top: 24px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      padding: 20px 24px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      transition: background 0.2s, border-color 0.2s;
-    }
+            .result {
+                margin-top: 24px;
+                border-radius: var(--radius);
+                border: 1px solid var(--border);
+                padding: 20px 24px;
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                transition:
+                    background 0.2s,
+                    border-color 0.2s;
+            }
 
-    .result.allowed  { background: #0d1f0f; border-color: var(--green); }
-    .result.blocked  { background: #1f0d0d; border-color: var(--red); }
-    .result.idle     { background: var(--surface); }
+            .result.allowed {
+                background: #0d1f0f;
+                border-color: var(--green);
+            }
+            .result.blocked {
+                background: #1f0d0d;
+                border-color: var(--red);
+            }
+            .result.idle {
+                background: var(--surface);
+            }
 
-    .result-icon { font-size: 2rem; line-height: 1; }
-    .result-label { font-size: 1.2rem; font-weight: 700; }
-    .result-label.allowed { color: var(--green); }
-    .result-label.blocked { color: var(--red); }
-    .result-meta { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+            .result-icon {
+                font-size: 2rem;
+                line-height: 1;
+            }
+            .result-label {
+                font-size: 1.2rem;
+                font-weight: 700;
+            }
+            .result-label.allowed {
+                color: var(--green);
+            }
+            .result-label.blocked {
+                color: var(--red);
+            }
+            .result-meta {
+                font-size: 0.8rem;
+                color: var(--muted);
+                margin-top: 2px;
+            }
 
-    .install {
-      margin-top: 48px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px 24px;
-    }
+            .install {
+                margin-top: 48px;
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: var(--radius);
+                padding: 20px 24px;
+            }
 
-    .install h3 { font-size: 0.9rem; color: var(--muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+            .install h3 {
+                font-size: 0.9rem;
+                color: var(--muted);
+                margin-bottom: 10px;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
 
-    pre {
-      font-family: var(--font-mono);
-      font-size: 0.875rem;
-      overflow-x: auto;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 14px 16px;
-      color: var(--text);
-    }
+            pre {
+                font-family: var(--font-mono);
+                font-size: 0.875rem;
+                overflow-x: auto;
+                background: var(--bg);
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                padding: 14px 16px;
+                color: var(--text);
+            }
 
-    .token-keyword { color: #ff7b72; }
-    .token-string  { color: #a5d6ff; }
-    .token-const   { color: var(--accent); }
-    .token-comment { color: var(--muted); }
-    .token-bool    { color: #79c0ff; }
-  </style>
-</head>
-<body>
+            .token-keyword {
+                color: #ff7b72;
+            }
+            .token-string {
+                color: #a5d6ff;
+            }
+            .token-const {
+                color: var(--accent);
+            }
+            .token-comment {
+                color: var(--muted);
+            }
+            .token-bool {
+                color: #79c0ff;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>google-robotstxt-parser <span>/ live demo</span></h1>
+            <a
+                href="https://github.com/VorticonCmdr/google-robotstxt-parser"
+                target="_blank"
+            >
+                <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                >
+                    <path
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                    />
+                </svg>
+                GitHub
+            </a>
+        </header>
 
-<header>
-  <h1>google-robotstxt-parser <span>/ live demo</span></h1>
-  <a href="https://github.com/VorticonCmdr/google-robotstxt-parser" target="_blank">
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-    GitHub
-  </a>
-</header>
+        <main>
+            <div class="hero">
+                <div class="badge">npm install google-robotstxt-parser</div>
+                <h2>robots.txt Checker</h2>
+                <p>
+                    A JavaScript port of Google's official robots.txt parser —
+                    test live in your browser.
+                </p>
+            </div>
 
-<main>
-  <div class="hero">
-    <div class="badge">npm install google-robotstxt-parser</div>
-    <h2>robots.txt Checker</h2>
-    <p>A JavaScript port of Google's official robots.txt parser — test live in your browser.</p>
-  </div>
-
-  <div class="grid">
-    <div class="card">
-      <label>robots.txt content</label>
-      <textarea id="robotstxt" spellcheck="false">User-agent: *
+            <div class="grid">
+                <div class="card">
+                    <label>robots.txt content</label>
+                    <textarea id="robotstxt" spellcheck="false">
+User-agent: *
 Disallow: /private/
 Allow: /private/public-page/
 
 User-agent: Googlebot
 Dissallow: /secret/
-Allow: /</textarea>
-    </div>
+Allow: /</textarea
+                    >
+                </div>
 
-    <div class="card">
-      <div class="inputs">
-        <div>
-          <label>User-agent</label>
-          <input type="text" id="useragent" value="Googlebot">
-        </div>
-        <div>
-          <label>URL to check</label>
-          <input type="text" id="url" value="https://example.com/secret/page">
-        </div>
-      </div>
-    </div>
-  </div>
+                <div class="card">
+                    <div class="inputs">
+                        <div>
+                            <label>User-agent</label>
+                            <input
+                                type="text"
+                                id="useragent"
+                                value="Googlebot"
+                            />
+                        </div>
+                        <div>
+                            <label>URL to check</label>
+                            <input
+                                type="text"
+                                id="url"
+                                value="https://example.com/secret/page"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-  <div class="result idle" id="result">
-    <div class="result-icon">⏳</div>
-    <div>
-      <div class="result-label" id="result-label">Checking…</div>
-      <div class="result-meta" id="result-meta"></div>
-    </div>
-  </div>
+            <div class="result idle" id="result">
+                <div class="result-icon">⏳</div>
+                <div>
+                    <div class="result-label" id="result-label">Checking…</div>
+                    <div class="result-meta" id="result-meta"></div>
+                </div>
+            </div>
 
-  <div class="install">
-    <h3>Use in your project</h3>
-    <pre><code><span class="token-keyword">import</span> { <span class="token-const">RobotsMatcher</span> } <span class="token-keyword">from</span> <span class="token-string">'google-robotstxt-parser'</span>;
+            <div class="install">
+                <h3>Use in your project</h3>
+                <pre><code><span class="token-keyword">import</span> { <span class="token-const">RobotsMatcher</span> } <span class="token-keyword">from</span> <span class="token-string">'google-robotstxt-parser'</span>;
 
 <span class="token-keyword">const</span> <span class="token-const">matcher</span> = <span class="token-keyword">new</span> <span class="token-const">RobotsMatcher</span>();
 <span class="token-keyword">const</span> <span class="token-const">allowed</span> = matcher.<span class="token-const">oneAgentAllowedByRobots</span>(robotsTxt, userAgent, url);
 console.<span class="token-const">log</span>(allowed); <span class="token-comment">// true or false</span></code></pre>
-  </div>
-</main>
+            </div>
+        </main>
 
-<script type="module">
-  import { RobotsMatcher } from './robots.js';
+        <script type="module">
+            import { RobotsMatcher } from "./robots.js";
 
-  const robotstxtEl  = document.getElementById('robotstxt');
-  const useragentEl  = document.getElementById('useragent');
-  const urlEl        = document.getElementById('url');
-  const resultEl     = document.getElementById('result');
-  const resultLabel  = document.getElementById('result-label');
-  const resultMeta   = document.getElementById('result-meta');
+            const robotstxtEl = document.getElementById("robotstxt");
+            const useragentEl = document.getElementById("useragent");
+            const urlEl = document.getElementById("url");
+            const resultEl = document.getElementById("result");
+            const resultLabel = document.getElementById("result-label");
+            const resultMeta = document.getElementById("result-meta");
 
-  function check() {
-    const robotsTxt  = robotstxtEl.value;
-    const userAgent  = useragentEl.value.trim();
-    const url        = urlEl.value.trim();
+            function check() {
+                const robotsTxt = robotstxtEl.value;
+                const userAgent = useragentEl.value.trim();
+                const url = urlEl.value.trim();
 
-    if (!userAgent || !url) {
-      resultEl.className = 'result idle';
-      resultEl.querySelector('.result-icon').textContent = '⚠️';
-      resultLabel.className = 'result-label';
-      resultLabel.textContent = 'Enter a user-agent and URL';
-      resultMeta.textContent = '';
-      return;
-    }
+                if (!userAgent || !url) {
+                    resultEl.className = "result idle";
+                    resultEl.querySelector(".result-icon").textContent = "⚠️";
+                    resultLabel.className = "result-label";
+                    resultLabel.textContent = "Enter a user-agent and URL";
+                    resultMeta.textContent = "";
+                    return;
+                }
 
-    const matcher = new RobotsMatcher();
-    const allowed = matcher.oneAgentAllowedByRobots(robotsTxt, userAgent, url);
-    const line    = matcher.matchingLine();
-    const specific = matcher.everSeenSpecificAgent();
+                const matcher = new RobotsMatcher();
+                const allowed = matcher.oneAgentAllowedByRobots(
+                    robotsTxt,
+                    userAgent,
+                    url,
+                );
+                const line = matcher.matchingLine();
+                const specific = matcher.everSeenSpecificAgent();
 
-    resultEl.className = 'result ' + (allowed ? 'allowed' : 'blocked');
-    resultEl.querySelector('.result-icon').textContent = allowed ? '✅' : '🚫';
-    resultLabel.className = 'result-label ' + (allowed ? 'allowed' : 'blocked');
-    resultLabel.textContent = allowed ? 'Allowed' : 'Blocked';
-    resultMeta.textContent = line
-      ? `Matched by line ${line} · ${specific ? 'specific agent rule' : 'wildcard (*) rule'}`
-      : `No matching rule — ${allowed ? 'allowed by default' : 'blocked by default'}`;
-  }
+                resultEl.className =
+                    "result " + (allowed ? "allowed" : "blocked");
+                resultEl.querySelector(".result-icon").textContent = allowed
+                    ? "✅"
+                    : "🚫";
+                resultLabel.className =
+                    "result-label " + (allowed ? "allowed" : "blocked");
+                resultLabel.textContent = allowed ? "Allowed" : "Blocked";
+                resultMeta.textContent = line
+                    ? `Matched by line ${line} · ${specific ? "specific agent rule" : "wildcard (*) rule"}`
+                    : `No matching rule — ${allowed ? "allowed by default" : "blocked by default"}`;
+            }
 
-  robotstxtEl.addEventListener('input', check);
-  useragentEl.addEventListener('input', check);
-  urlEl.addEventListener('input', check);
-  check();
-</script>
-
-</body>
+            robotstxtEl.addEventListener("input", check);
+            useragentEl.addEventListener("input", check);
+            urlEl.addEventListener("input", check);
+            check();
+        </script>
+    </body>
 </html>
