@@ -447,11 +447,11 @@ unicorn: /rainbow/</textarea>
         </main>
 
         <script type="module">
-            import { parseRobotsTxt, RobotsMatcher } from "../robots.js";
+            import { parseRobotsTxt, RobotsMatcher } from "./robots.js";
             import {
                 RobotsTagName,
                 RobotsParsingReporter,
-            } from "../reporting_robots.js";
+            } from "./reporting_robots.js";
 
             const robotstxtEl = document.getElementById("robotstxt");
             const urlEl = document.getElementById("url");
